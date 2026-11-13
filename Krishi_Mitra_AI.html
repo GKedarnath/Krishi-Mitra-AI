@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Krishi Mitra AI</title>
+<style>
+:root{--g:#087443;--gd:#075b36;--ink:#172b22;--muted:#64756b;--bg:#f4f7f4;--line:#dfe8e1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Arial,sans-serif}
+.gov{background:#edf2ed;color:#506156;padding:7px max(calc((100% - 1100px)/2),20px);font-size:11px}
+.nav{background:white;border-bottom:1px solid var(--line);padding:15px max(calc((100% - 1100px)/2),20px);display:flex;gap:12px;align-items:center}
+.seal{width:42px;height:42px;border-radius:50%;background:#e8f3eb;display:grid;place-items:center;font-size:22px}
+.brand b,.brand small{display:block}.brand small{color:var(--muted);font-size:11px}.nav span:last-child{margin-left:auto;color:var(--g);font-size:12px;font-weight:700}
+.hero{background:linear-gradient(110deg,#075b36,#13834e);color:white;padding:42px 20px}.hero>div{max-width:1060px;margin:auto}
+.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.1;max-width:760px;margin:8px 0}.hero p{max-width:720px;color:#e4f0e8}
+.wrap{max-width:1060px;margin:26px auto;padding:0 18px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:17px}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 5px 20px #173b250c;margin-bottom:16px}
+.card h2{font-size:20px;margin:0 0 4px}.muted{font-size:12px;color:var(--muted);margin:0 0 16px}
+.field{display:block;font-size:12px;font-weight:700;color:#40584a;margin:13px 0}
+.field input,.field textarea,.field select{display:block;width:100%;margin-top:6px;border:1px solid #d5e0d7;border-radius:8px;padding:12px;background:#fbfdfb;font:inherit;font-size:14px}
+.field textarea{min-height:145px;resize:vertical}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{border:0;border-radius:8px;padding:12px 17px;background:var(--g);color:white;font-weight:750;cursor:pointer}
+button.alt{background:#eaf3ec;color:var(--gd)}button:disabled{opacity:.55;cursor:wait}
+.side{display:grid;gap:12px;align-content:start}.info{border:1px solid var(--line);border-radius:10px;padding:13px;margin:9px 0}
+.info b{display:block;font-size:13px}.info small{color:var(--muted);font-size:11px}
+.notice{background:#fff7e7;color:#70531e;border-radius:9px;padding:12px;font-size:11px;margin:12px 0}
+.hidden{display:none!important}.output{margin-top:17px}.answer{white-space:pre-wrap;font-size:14px}
+.status{padding:11px;border-radius:8px;background:#edf6ef;color:#28563b;font-size:12px;margin:12px 0}
+.err{background:#fff0ee;color:#8b3028}.foot{max-width:1060px;margin:25px auto;padding:18px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+.small{font-size:11px;color:var(--muted)}.check{display:flex;gap:8px;align-items:flex-start;font-size:12px;margin:12px 0}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.nav span:last-child{display:none}.card{padding:17px}}
+</style></head>
+<body>
+<div class="gov">Farmer support prototype · Independent educational project</div>
+<header class="nav"><div class="seal">🌾</div><div class="brand"><b>Krishi Mitra AI</b><small>PMFBY information and claim-support assistant</small></div><span>FARMER SUPPORT</span></header>
+<section class="hero"><div><div style="font-size:10px;letter-spacing:.15em;font-weight:800">CROP INSURANCE GUIDANCE</div><h1>Tell us what happened. Find a clearer next step.</h1><p>Describe your issue naturally. Add supporting documents, location or photos only when you choose. Uncertain or disputed cases can be sent for human review.</p></div></section>
+<main class="wrap"><div class="layout"><div>
+<section class="card">
+<h2>Describe your claim or question</h2><p class="muted">No sample farmer records or preloaded claim outcomes are used. Share only what is needed.</p>
+<form id="assistForm">
+<label class="field">Your message<textarea id="farmerMessage" required placeholder="Write your question or explain what happened..."></textarea></label>
+<label class="field">Preferred response language<select id="language"><option>English</option><option>Simple English</option><option>Kannada</option><option>Hindi</option><option>Other / detect from message</option></select></label>
+<label class="field">Optional context<input id="additionalContext" placeholder="District, crop, season or other relevant context"></label>
+<label class="check"><input type="checkbox" id="consent" required> I understand this prototype processes my message locally and does not submit a PMFBY claim.</label>
+<div class="row"><button id="analyzeButton" type="submit">Check local guidance →</button><button class="alt" type="button" id="clearButton">Clear</button><button class="alt" type="button" id="voiceButton">🎙 Voice input</button></div>
+</form>
+<div id="status" class="status hidden" aria-live="polite"></div>
+<section id="assistantResult" class="output hidden"><h2>Krishi Mitra response</h2><div id="answer" class="answer"></div><div class="row" style="margin-top:15px"><button class="alt" id="copyButton" type="button">Copy response</button><button class="alt" id="readButton" type="button">Read aloud</button></div></section>
+</section>
+
+<section class="card">
+<h2>Official PMFBY services</h2>
+<p class="muted">Use the official Government of India portal for transactions and personal policy information. Krishi Mitra AI does not impersonate or replace these services.</p>
+<div class="info"><b>Apply for crop insurance</b><small>Open the official Farmer Corner sign-in/enrolment page.</small><p><a href="https://pmfby.gov.in/farmerLogin" target="_blank" rel="noopener noreferrer">Open PMFBY Farmer Login ↗</a></p></div>
+<div class="info"><b>Check application status</b><small>Use the official PMFBY status page and provide details only on the official website.</small><p><a href="https://pmfby.gov.in/status" target="_blank" rel="noopener noreferrer">Open PMFBY Application Status ↗</a></p></div>
+<div class="info"><b>Insurance company directory</b><small>Find insurer and broker contact information through the official directory.</small><p><a href="https://pmfby.gov.in/insuranceCompanyDirectory" target="_blank" rel="noopener noreferrer">Open insurer directory ↗</a></p></div>
+<div class="info"><b>Grievances and crop-loss reporting</b><small>Official KRPH toll-free helpline: <strong>14447</strong>. The official portal also lists WhatsApp chatbot number <strong>7065514447</strong>.</small><p><a href="https://pmfby.gov.in/" target="_blank" rel="noopener noreferrer">Open official PMFBY portal ↗</a></p></div>
+<div class="info"><b>Official guidelines and circulars</b><small>Always confirm the latest central and state/season notifications.</small><p><a href="https://pmfby.gov.in/" target="_blank" rel="noopener noreferrer">Find documents on PMFBY ↗</a> · <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2197713&amp;lang=1&amp;reg=3" target="_blank" rel="noopener noreferrer">Ministry update, 2 Dec 2025 ↗</a></p></div>
+<div id="officialIntegrationStatus" class="status">Checking official integration configuration…</div>
+<p class="small">These are official outbound links, not a live API connection. Never enter OTPs, Aadhaar numbers, bank details or passwords into Krishi Mitra AI.</p>
+</section>
+
+<section class="card">
+<h2>Knowledge documents (RAG)</h2><p class="muted">Add official PMFBY circulars, state notifications or insurer documents in plain text (.txt). The local server indexes the text for retrieval.</p>
+<label class="field">Upload text knowledge file<input id="knowledgeFile" type="file" accept=".txt,text/plain"></label>
+<div class="row"><button type="button" id="uploadKnowledge">Add to knowledge base</button><button class="alt" type="button" id="knowledgeStatus">Check indexed documents</button></div>
+<div id="knowledgeResult" class="status hidden"></div>
+<p class="small">Only plain-text files are supported in this version. Verify document authenticity, state, season and effective date before relying on a passage.</p>
+</section>
+
+<section class="card">
+<h2>GPS location and geo-tagged photo evidence</h2>
+<p class="muted">Location and photo sharing are optional. Current GPS location does not prove where or when a photo was taken, or prove crop loss.</p>
+<label class="check"><input type="checkbox" id="gpsConsent"> I consent to capture and send my current device location to this local server.</label>
+<div class="row"><button type="button" id="captureGPS">Capture GPS location</button><button class="alt" type="button" id="clearGPS">Clear location</button></div>
+<div id="gpsResult" class="status hidden"></div>
+<label class="field">Select crop photos<input id="geoPhotos" type="file" accept="image/*" multiple></label>
+<div id="geoPhotoInfo" class="small">No photos selected.</div>
+<div class="row" style="margin-top:12px"><button type="button" id="sendPhotoMetadata">Register photo metadata</button></div>
+<div id="photoLocationResult" class="status hidden"></div>
+</section>
+
+<section class="card">
+<h2>Human review</h2><p class="muted">Use this for unclear, disputed or high-impact questions. This queues a local review request; it does not notify an official or insurer.</p>
+<label class="field">Why is human review needed?<textarea id="reviewReason" placeholder="Explain what needs checking..."></textarea></label>
+<label class="check"><input type="checkbox" id="humanConsent"> I consent to submit this review request to the local prototype queue.</label>
+<button type="button" id="prepareReview">Submit for human review</button>
+<div id="reviewResult" class="status hidden"></div>
+</section>
+</div>
+
+<aside class="side">
+<div class="card"><h2>How it works</h2><p class="muted">Local JavaScript workflow</p>
+<div class="info"><b>1 · Receive</b><small>Your message is sent to the local Node.js service.</small></div>
+<div class="info"><b>2 · Retrieve</b><small>Keyword-based document retrieval finds matching passages you uploaded.</small></div>
+<div class="info"><b>3 · Tools</b><small>Local endpoints register GPS, photo metadata and review requests.</small></div>
+<div class="info"><b>4 · Explain</b><small>The site shows source passages and warns when no source is available.</small></div></div>
+<div class="notice"><b>Capability note:</b> This version has no language model, no external AI service and no official PMFBY API. It is a local retrieval and workflow prototype, not unrestricted conversational AI.</div>
+<div class="card"><h2>Responsible AI</h2><p class="muted">The system must not invent eligibility, deadlines, claim status, weather evidence or approval. Government/insurer authorities make official decisions.</p></div>
+</aside></div></main>
+<footer class="foot">Krishi Mitra AI is an independent educational prototype, not an official Government of India, PMFBY or insurer website. It does not file, assess or approve claims. Confirm all guidance with the current applicable official notification and authorized insurer.</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+let capturedGPS=null, selectedPhotos=[];
+async function loadOfficialIntegrationStatus(){
+ try{
+  const d=await api('/api/integrations/status');
+  const el=$('officialIntegrationStatus');
+  el.textContent=`Official portal links: available. Direct NCIP/insurer API: ${d.directApi.status}. ${d.directApi.message}`;
+ }catch(e){$('officialIntegrationStatus').textContent='Could not load integration status: '+e.message}
+}
+
+function show(id,msg,error=false){const el=$(id);el.textContent=msg;el.classList.remove('hidden','err');if(error)el.classList.add('err')}
+async function api(path,body){const r=await fetch(path,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});const d=await r.json().catch(()=>({error:'Invalid server response'}));if(!r.ok)throw new Error(d.error||('HTTP '+r.status));return d}
+$('assistForm').addEventListener('submit',async e=>{
+ e.preventDefault();const message=$('farmerMessage').value.trim();if(!message)return;
+ $('analyzeButton').disabled=true;$('analyzeButton').textContent='Checking…';$('assistantResult').classList.add('hidden');show('status','Contacting local Krishi Mitra service…');
+ try{const d=await api('/api/assist',{message,context:$('additionalContext').value.trim(),language:$('language').value});$('answer').textContent=d.answer;$('assistantResult').classList.remove('hidden');show('status','Local retrieval completed. Review the source and limitations in the response.')}
+ catch(err){show('status','Could not reach the local backend: '+err.message,true)}
+ finally{$('analyzeButton').disabled=false;$('analyzeButton').textContent='Check local guidance →'}
+});
+$('clearButton').onclick=()=>{$('assistForm').reset();$('assistantResult').classList.add('hidden');$('status').classList.add('hidden')};
+$('copyButton').onclick=async()=>{try{await navigator.clipboard.writeText($('answer').textContent);show('status','Response copied.')}catch{show('status','Clipboard is unavailable in this browser.',true)}};
+$('readButton').onclick=()=>{if('speechSynthesis'in window){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance($('answer').textContent))}else show('status','Read-aloud is not supported in this browser.',true)};
+$('voiceButton').onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){show('status','Voice input is not supported by this browser.',true);return}const rec=new SR();rec.lang=$('language').value==='Kannada'?'kn-IN':'en-IN';rec.onresult=e=>$('farmerMessage').value+=( $('farmerMessage').value?' ':'')+e.results[0][0].transcript;rec.onerror=()=>show('status','Voice input could not be completed.',true);rec.start()};
+$('uploadKnowledge').onclick=async()=>{const f=$('knowledgeFile').files[0];if(!f){show('knowledgeResult','Choose a .txt file first.',true);return}try{const content=await f.text();const d=await api('/api/knowledge/upload',{name:f.name,content});show('knowledgeResult',`Indexed ${d.characters} characters from ${d.name}. Document ID: ${d.id}`)}catch(e){show('knowledgeResult',e.message,true)}};
+$('knowledgeStatus').onclick=async()=>{try{const d=await api('/api/knowledge/status');show('knowledgeResult',`Indexed documents: ${d.count}\n${d.documents.map(x=>x.name+' ('+x.characters+' characters)').join('\n')||'No documents uploaded.'}`)}catch(e){show('knowledgeResult',e.message,true)}};
+$('captureGPS').onclick=()=>{if(!$('gpsConsent').checked){show('gpsResult','Please provide consent before capturing or sending location.',true);return}if(!navigator.geolocation){show('gpsResult','Geolocation is not supported by this browser.',true);return}show('gpsResult','Requesting device location…');navigator.geolocation.getCurrentPosition(async p=>{capturedGPS={latitude:p.coords.latitude,longitude:p.coords.longitude,accuracy:p.coords.accuracy};try{await api('/api/gps',capturedGPS);show('gpsResult',`Location registered with local server.\nLatitude: ${capturedGPS.latitude}\nLongitude: ${capturedGPS.longitude}\nAccuracy: approximately ${Math.round(capturedGPS.accuracy)} metres.`)}catch(e){show('gpsResult','Location captured in browser but could not be registered: '+e.message,true)}},e=>show('gpsResult','Location unavailable: '+e.message,true),{enableHighAccuracy:true,timeout:15000})};
+$('clearGPS').onclick=()=>{capturedGPS=null;$('gpsConsent').checked=false;show('gpsResult','Location cleared from this page. Previously sent in-memory server metadata remains until server restart.')};
+$('geoPhotos').onchange=()=>{selectedPhotos=[...$('geoPhotos').files];$('geoPhotoInfo').textContent=selectedPhotos.length?selectedPhotos.map(f=>`${f.name} · ${Math.round(f.size/1024)} KB`).join('\n'):'No photos selected.'};
+$('sendPhotoMetadata').onclick=async()=>{if(!selectedPhotos.length){show('photoLocationResult','Choose one or more photos first.',true);return}try{const d=await api('/api/geo-photos',{photos:selectedPhotos.map(f=>({name:f.name,type:f.type,size:f.size})),gps:capturedGPS});show('photoLocationResult',`Registered ${d.registered} photo metadata record(s). The image files themselves were not uploaded or inspected.`)}catch(e){show('photoLocationResult',e.message,true)}};
+loadOfficialIntegrationStatus();
+$('prepareReview').onclick=async()=>{const reason=$('reviewReason').value.trim();if(!reason){show('reviewResult','Explain what needs human review first.',true);return}if(!$('humanConsent').checked){show('reviewResult','Consent is required to submit this request.',true);return}try{const d=await api('/api/human-review',{reason,message:$('farmerMessage').value.trim(),context:$('additionalContext').value.trim()});show('reviewResult',`Review request added to local queue.\nReference: ${d.id}\nThis does not notify an official reviewer.`)}catch(e){show('reviewResult',e.message,true)}};
+</script></body></html>

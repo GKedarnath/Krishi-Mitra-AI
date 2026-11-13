@@ -1,0 +1,38 @@
+KRISHI MITRA AI — VERIFIED OFFICIAL PMFBY REFERENCE NOTES
+Reference pack generated: 13 November 2026
+Purpose: navigation and limited factual reference. Always check the linked live official source for current state, season and notification applicability.
+
+1. OFFICIAL PMFBY PORTAL
+Official portal: https://pmfby.gov.in/
+The official PMFBY portal advertises farmer enrolment through Farmer Corner, an insurance premium calculator, application status lookup, the Krishi Rakshak Portal & Helpline for queries/grievances/crop-loss reporting, an LMS, YESTECH, WINDS, a farmer app, WhatsApp chatbot, AIDE, CCE and CLAP resources.
+Source: Official PMFBY portal, https://pmfby.gov.in/
+Portal service pages surfaced in official portal navigation:
+Farmer login: https://pmfby.gov.in/farmerLogin
+Application status: https://pmfby.gov.in/status
+Insurance company and broker directory: https://pmfby.gov.in/insuranceCompanyDirectory
+
+2. GRIEVANCE AND CROP-LOSS REPORTING
+The official PMFBY portal lists Krishi Rakshak Portal & Helpline (KRPH) and toll-free number 14447 for queries, grievances and reporting crop loss. The portal also lists WhatsApp chatbot number 7065514447. Verify current availability and follow the official portal's instructions.
+Source: https://pmfby.gov.in/
+A PIB Ministry of Agriculture & Farmers Welfare release dated 2 December 2025 states that KRPH is the first-level grievance channel and describes District and State Grievance Redressal Committees as further grievance mechanisms.
+Source: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2197713&lang=1&reg=3
+
+3. APPLICATION QUALITY / DOCUMENTATION — DO NOT TURN INTO AUTOMATIC ELIGIBILITY DECISIONS
+The PIB release dated 2 December 2025 describes NCIP application quality checks including insurable interest, land ownership or proof of tenant/sharecropper status, insured area not exceeding actual parcel area, insured crop matching sown crop, and farmer name matching Aadhaar name. It notes that incomplete or incorrect applications may be liable to rejection by insurers, and describes grievance routes for objections.
+This is general explanatory information, not a complete checklist and not a decision about an individual farmer. Do not ask farmers to enter Aadhaar numbers into Krishi Mitra AI.
+Source: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2197713&lang=1&reg=3
+
+4. OPERATIONAL GUIDELINES REFERENCE — 2023 EDITION
+A PMFBY Operational Guidelines PDF is indexed as the 2023 edition, effective from Kharif 2023. Its contents include coverage, risks, seasonality, enrollment, loss assessment, claim settlement, grievance redressal and National Crop Insurance Portal (NCIP) administration.
+PDF: https://pmfby.amnex.co.in/pmfby/pdf/operational_guidelines_pmfby.pdf
+Important: this is a 2023 document. Do not treat it as the latest applicable rule without checking subsequent central and state notifications, season-specific crop notifications and insurer instructions.
+
+5. LIVE API / SYSTEM INTEGRATION STATUS
+Public portal pages are farmer-facing service pages and do not by themselves grant Krishi Mitra AI API access to private NCIP records, policy status, claim status, enrolment, grievance creation or claim submission.
+An API Setu PMFBY collection page was found, but the visible listing identifies a “Policy Document” collection provided by DigiLocker and its API definition failed to load in the public page. No verified public claim-status or claim-submission API schema was available from that listing.
+API Setu collection: https://directory.apisetu.gov.in/api-collection/pmfby
+API Setu developer resources: https://docs.apisetu.gov.in/
+Do not call guessed endpoints, scrape authenticated pages, bypass OTP/CAPTCHA, or collect farmer credentials. Direct integrations require written authorization, current API specifications, onboarding, approved scopes, test credentials and production credentials from the responsible government/portal/insurer authority.
+
+6. RESPONSIBLE USE
+Weather feeds, satellite imagery, GPS coordinates and photographs can provide context but do not alone prove insured loss, policy eligibility or claim approval. Only the authorized insurer/government process can determine official claim outcomes. Clearly disclose source, date, season, state and uncertainty.
